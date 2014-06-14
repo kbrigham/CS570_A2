@@ -24,8 +24,8 @@ int main(){
     string teststr;
     cout << "test";
     teststr = readFile("pages.txt");
-
-}
+	printFaults((opt(str), lru(str), clk(str), fifo(str));
+	}
 
 
 void promptUser(){
@@ -50,67 +50,61 @@ string readFile(char* filename){
 void opt(string str){
 //print faults
 }
-void lru(string str){
+int lru(string str){
     int pageMem[50]={0};
     int lruFaults = 0; // variable that adds up the fault pages.
     int breakFlag = 0;
 
-for (int i=0; i<=(int)str.size; i++){
-    for (int j = 0; j <= frameSize -1; j++){
-        if( pageMem[j] == 0 ){  //checks if empty 
-            lruFaults++;
-            pageMem[j] = array[i]; 
-            breakFlag = 1;
-            break; 
-        }
-        if( pageMem[j] == array[i]){ //checks if existing
-            int t = pageMem[j];  // grab current element to promote
-            int current = j;
-            while(current != 0){
-                pageMem[current] = pageMem[current-1];
-                current--;
-        }
-        pageMem[0]=t;
-             // not a fault
-        breakFlag = 1;
-        break;  
-        }
-    }
-	if(breakFlag == 0){
-		int t = array[i];  // grab current element to put at top
-		int current = frameSize -1;    //last pos in the array
-		while(current != 0){
-			pageMem[current] = pageMem[current-1];
-			current--;
+	for (int i=0; i<=(int)str.size(); i++){
+		for (int j = 0; j <= frameSize -1; j++){
+			if( pageMem[j] == 0 ){  //checks if empty 
+				lruFaults++;
+				pageMem[j] = array[i]; 
+				breakFlag = 1;
+				break; 
+			}
+			if( pageMem[j] == array[i]){ //checks if existing
+				int t = pageMem[j];  // grab current element to promote
+				int current = j;
+				while(current != 0){
+					pageMem[current] = pageMem[current-1];
+					current--;
+			}
+			pageMem[0]=t;
+			breakFlag = 1;
+			break;  
+			}
 		}
-		pageMem[0]=t;
-		lruFaults++;
+		if(breakFlag == 0){
+			int t = array[i];  // grab current element to put at top
+			int current = frameSize -1;    //last pos in the array
+			while(current != 0){
+				pageMem[current] = pageMem[current-1];
+				current--;
+			}
+			pageMem[0]=t;
+			lruFaults++;
+		}
+	return lruFaults
 	}
-}
 
 }
-return lruFaults
-}
- 
-
-
-
 
 
 }
-void clk(string str){
+int clk(string str){
 //return faults
 }
-void fifo(string str){
+int fifo(string str){
 //return faults
 }
 
-void printFaults(int opt, int lru, int clk, int fifo){
+int printFaults(int opt, int lru, int clk, int fifo){
 }
-	cout << "The OPT Method Generates "<<optFaults<< " Page Faults. "<<endl;
-    cout << "The LRU Method Generates "<<lruFaults<< " Page Faults. "<<endl;
-	cout << "The CLOCK Method Generates "<<clkFaults<< " Page Faults. "<<endl;
-	cout << "The FIFO Method Generates "<<fifoFaults<< " Page Faults. "<<endl;
+	cout << "The OPT Method Generates "<<opt<< " Page Faults. "<<endl;
+    cout << "The LRU Method Generates "<<lru<< " Page Faults. "<<endl;
+	cout << "The CLOCK Method Generates "<<clk<< " Page Faults. "<<endl;
+	cout << "The FIFO Method Generates "<<fifo<< " Page Faults. "<<endl;
 }	
 	
 
