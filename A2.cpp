@@ -4,11 +4,7 @@
 // Description : Assignment 2, CS570 Summer 2014
 //================================================================
 #include "A2.h"
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <fstream>
-#include <stdlib.h>
+
 
 using namespace std;
 /*
@@ -21,33 +17,38 @@ text where each number is separated by a space character.
 */
 
 int main(){
-    string teststr;
-    cout << "test";
-    teststr = readFile("pages.txt");
-    cout << teststr;
+    vector<int> intVec;
+    intVec = readFile("pages.txt");
+    for_each(intVec.begin(), intVec.end(), printInt);
 //	printFaults((opt(str), lru(str), clk(str), fifo(str));
 }
 
+void printInt(int i){
+    cout << i << endl;
+}
 
 void promptUser(){
 //Upon startup, prompt the user for the number of frames in main memory 
 }
-string readFile(string filename){
-    const char* fname = filename.c_str();
-    ifstream infile(fname);
-    string line = "";
+vector<int> readFile(char *filename){
+    ifstream infile(filename);
+    string line;
     getline(infile, line); //iterates each line in file
-    stringstream strstr(line);
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    //for testing only
+    //line = "1 2 3 4 5 6 7 8 9 10 11 12"; //uncomment for testing
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    istringstream strstr(line);
+    vector<int> intVec;
     string word = "";
-    //while (getline(strstr,word, ' ')){ // this while loop helps skip blank spaces.
-    int intResult;
-    stringstream convert(word);
-    if ( !(convert >> intResult) ){  // word is not in intResult
-        intResult = 0;   // failed to convert
+    while (getline(strstr,word, ' ')){ // this while loop helps skip blank spaces.
+        int result = atoi(word.c_str());
+        intVec.push_back(result);
     }
-          //  array[count1]= intResult; // stores all the seperate ints into our array to use.
-          //  count1++;
-    return "test";
+
+    return intVec;
 }
 void opt(string str){
 //print faults
@@ -97,11 +98,10 @@ int fifo(string str){
 }
 
 int printFaults(int opt, int lru, int clk, int fifo){
-}
-	cout << "The OPT Method Generates "<<opt<< " Page Faults. "<<endl;
-    cout << "The LRU Method Generates "<<lru<< " Page Faults. "<<endl;
-	cout << "The CLOCK Method Generates "<<clk<< " Page Faults. "<<endl;
-	cout << "The FIFO Method Generates "<<fifo<< " Page Faults. "<<endl;
+//	cout << "The OPT Method Generates "<<opt<< " Page Faults. "<<endl;
+//    cout << "The LRU Method Generates "<<lru<< " Page Faults. "<<endl;
+//	cout << "The CLOCK Method Generates "<<clk<< " Page Faults. "<<endl;
+//	cout << "The FIFO Method Generates "<<fifo<< " Page Faults. "<<endl;
 }	
 	
 

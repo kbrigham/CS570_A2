@@ -9,11 +9,14 @@
 #include <string>
 #include <fstream>
 #include <stdlib.h>
+#include <vector>
+#include <algorithm> //for_each
 
 using namespace std;
 
+void printInt(int);
 void promptUser();
-string readFile(char*);
+vector<int> readFile(char*);
 void opt();
 void lru();
 void clk();
