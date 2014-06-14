@@ -23,6 +23,41 @@ text where each number is separated by a space character.
 promptUser(){
 //Upon startup, prompt the user for the number of frames in main memory 
 }
+readFile(){
+    ifstream infile("pages.txt");
+    string line = "";
+    getline(infile, line) //iterates each line in file
+        stringstream strstr(line);
+        string word = "";
+        while (getline(strstr,word, ' ')){ // this while loop helps skip blank spaces.
+            int intResult;
+            stringstream convert(word);
+            if ( !(convert >> intResult) ){  // word is not in intResult
+                intResult = 0;   // failed to convert
+            }
+            array[count1]= intResult; // stores all the seperate ints into our array to use.
+            count1++;
+        }
+}
+}
+opt(){
+//print faults
+}
+lru(){
+//print faults
+}
+clk(){
+//return faults
+}
+fifo(){
+//return faults
+}
+
+printFaults(){
+}
+
+
+
 //Read the sequence of pages accessed from the file "pages.txt" : The 
 //sequence of pages the page/thread accesses will be contained here This file shall be located in the same directory as the executable 
 //and shall contain a series of positive integers representing the pages (by it’s page number) which the process/thread is accessing as 
