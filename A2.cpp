@@ -21,29 +21,30 @@ text where each number is separated by a space character.
 */
 
 int main(){
+    string teststr;
     cout << "test";
+    teststr = readFile("pages.txt");
 }
 
 
 void promptUser(){
 //Upon startup, prompt the user for the number of frames in main memory 
 }
-void readFile(){
-    ifstream infile("pages.txt");
+string readFile(char* filename){
+    ifstream infile(filename);
     string line = "";
     getline(infile, line); //iterates each line in file
-        stringstream strstr(line);
-        string word = "";
-        //while (getline(strstr,word, ' ')){ // this while loop helps skip blank spaces.
-            int intResult;
-            stringstream convert(word);
-            if ( !(convert >> intResult) ){  // word is not in intResult
-                intResult = 0;   // failed to convert
-            }
+    stringstream strstr(line);
+    string word = "";
+    //while (getline(strstr,word, ' ')){ // this while loop helps skip blank spaces.
+    int intResult;
+    stringstream convert(word);
+    if ( !(convert >> intResult) ){  // word is not in intResult
+        intResult = 0;   // failed to convert
+    }
           //  array[count1]= intResult; // stores all the seperate ints into our array to use.
           //  count1++;
-        //}
-//}
+    return "test";
 }
 void opt(){
 //print faults
