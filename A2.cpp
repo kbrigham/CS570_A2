@@ -52,20 +52,19 @@ string readFile(string filename){
 void opt(string str){
 //print faults
 }
-int lru(string str){
-    int pageMem[50]={0};
-    int lruFaults = 0; // variable that adds up the fault pages.
+int lru(int* array, int length){
+    int pageMem[50]={0}; //frame
+    int lruFaults = 0; 
 
-	for (int i=0; i<=(int)str.size(); i++){
-		for (int j = 0; j <= frameSize -1; j++){
-			if( pageMem[j] == 0 ){  //checks if empty 
+	for (int i=0; i<=length; i++){					//for all ints in array 
+		for (int j = 0; j <= length -1; j++){		
+			if( pageMem[j] == 0 ){  				//checks if empty 
 				lruFaults++;
-				pageMem[j] = array[i]; 
-
+				pageMem[j] = array[i]; 	
 				break; 
 			}
-			if( pageMem[j] == array[i]){ //checks if existing
-				int t = pageMem[j];  // grab current element to promote
+			if( pageMem[j] == array[i]){ 			//compare to check if existing
+				int t = pageMem[j];  
 				int current = j;
 				while(current != 0){
 					pageMem[current] = pageMem[current-1];
@@ -75,8 +74,8 @@ int lru(string str){
 				break;  
 			}
 			else{
-			int t = array[i];  // grab current element to put at top
-			int current = frameSize -1;    //last pos in the array
+			int t = array[i];  			// grab current element to put at top
+			int current = length -1;    //last pos in the array
 			while(current != 0){
 				pageMem[current] = pageMem[current-1];
 				current--;
