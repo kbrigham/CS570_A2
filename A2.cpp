@@ -24,6 +24,7 @@ int main(){
     string teststr;
     cout << "test";
     teststr = readFile("pages.txt");
+    print << teststr;
 
 }
 
@@ -31,8 +32,9 @@ int main(){
 void promptUser(){
 //Upon startup, prompt the user for the number of frames in main memory 
 }
-string readFile(char* filename){
-    ifstream infile(filename);
+string readFile(string filename){
+    const char* fname = filename.c_str();
+    ifstream infile(fname);
     string line = "";
     getline(infile, line); //iterates each line in file
     stringstream strstr(line);
@@ -55,25 +57,25 @@ void lru(string str){
     int lruFaults = 0; // variable that adds up the fault pages.
     int breakFlag = 0;
 
-for (int i=0; i<=(int)str.size; i++){
-    for (int j = 0; j <= frameSize -1; j++){
-        if( pageMem[j] == 0 ){  //checks if empty 
-            lruFaults++;
-            pageMem[j] = array[i]; 
+    for (int i=0; i<=(int)str.size(); i++){
+        for (int j = 0; j <= frameSize -1; j++){
+            if( pageMem[j] == 0 ){  //checks if empty 
+                lruFaults++;
+                pageMem[j] = array[i]; 
+                breakFlag = 1;
+                break; 
+            }
+            if( pageMem[j] == array[i]){ //checks if existing
+                int t = pageMem[j];  // grab current element to promote
+                int current = j;
+                while(current != 0){
+                    pageMem[current] = pageMem[current-1];
+                    current--;
+                }
+                pageMem[0]=t;
+                // not a fault
             breakFlag = 1;
-            break; 
-        }
-        if( pageMem[j] == array[i]){ //checks if existing
-            int t = pageMem[j];  // grab current element to promote
-            int current = j;
-            while(current != 0){
-                pageMem[current] = pageMem[current-1];
-                current--;
-        }
-        pageMem[0]=t;
-             // not a fault
-        breakFlag = 1;
-        break;  
+            break;  
         }
     }
 	if(breakFlag == 0){
