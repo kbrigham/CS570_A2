@@ -24,6 +24,7 @@ int main(){
     string teststr;
     cout << "test";
     teststr = readFile("pages.txt");
+
 }
 
 
@@ -49,8 +50,53 @@ string readFile(char* filename){
 void opt(){
 //print faults
 }
-void lru(){
-//print faults
+void lru(string str){
+    int pageMem[50]={0};
+    int lruFaults = 0; // variable that adds up the fault pages.
+    int breakFlag = 0;
+
+for (int i=0; i<=(int)str.size; i++){
+    for (int j = 0; j <= frameSize -1; j++){
+        if( pageMem[j] == 0 ){  //checks if empty 
+            lruFaults++;
+            pageMem[j] = array[i]; 
+            breakFlag = 1;
+            break; 
+        }
+        if( pageMem[j] == array[i]){ //checks if existing
+            int t = pageMem[j];  // grab current element to promote
+            int current = j;
+            while(current != 0){
+                pageMem[current] = pageMem[current-1];
+                current--;
+        }
+        pageMem[0]=t;
+             // not a fault
+        breakFlag = 1;
+        break;  
+        }
+    }
+	if(breakFlag == 0){
+		int t = array[i];  // grab current element to put at top
+		int current = frameSize -1;    //last pos in the array
+		while(current != 0){
+			pageMem[current] = pageMem[current-1];
+			current--;
+		}
+		pageMem[0]=t;
+		lruFaults++;
+	}
+}
+
+}
+
+}
+ 
+
+
+
+
+
 }
 void clk(){
 //return faults
@@ -59,24 +105,14 @@ void fifo(){
 //return faults
 }
 
-void printFaults(){
+void printFaults(int opt, int lru, int clk, int fifo){
 }
-
-
-
-//Read the sequence of pages accessed from the file "pages.txt" : The 
-//sequence of pages the page/thread accesses will be contained here This file shall be located in the same directory as the executable 
-//and shall contain a series of positive integers representing the pages (by it’s page number) which the process/thread is accessing as 
-//it performs it’s work.The pages.txt file will contain a single line of text where each number is separated by a space character.
-
-
-//Run each of the algorithms (OPT, LRU, and Clock) on the same input string from the step above 
-
-
-//Printout the number of faults each algorithm generates to the terminal. 
-
-
-
+	cout << "The OPT Method Generates "<<optFaults<< " Page Faults. "<<endl;
+    cout << "The LRU Method Generates "<<lruFaults<< " Page Faults. "<<endl;
+	cout << "The CLOCK Method Generates "<<clkFaults<< " Page Faults. "<<endl;
+	cout << "The FIFO Method Generates "<<fifoFaults<< " Page Faults. "<<endl;
+}	
+	
 
 
 
