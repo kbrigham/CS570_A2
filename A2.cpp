@@ -47,7 +47,7 @@ string readFile(char* filename){
           //  count1++;
     return "test";
 }
-void opt(){
+void opt(string str){
 //print faults
 }
 void lru(string str){
@@ -89,7 +89,7 @@ for (int i=0; i<=(int)str.size; i++){
 }
 
 }
-
+return lruFaults
 }
  
 
@@ -98,10 +98,10 @@ for (int i=0; i<=(int)str.size; i++){
 
 
 }
-void clk(){
+void clk(string str){
 //return faults
 }
-void fifo(){
+void fifo(string str){
 //return faults
 }
 
