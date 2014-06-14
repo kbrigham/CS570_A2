@@ -55,13 +55,13 @@ void opt(string str){
 int lru(string str){
     int pageMem[50]={0};
     int lruFaults = 0; // variable that adds up the fault pages.
-    int breakFlag = 0;
+
 	for (int i=0; i<=(int)str.size(); i++){
 		for (int j = 0; j <= frameSize -1; j++){
 			if( pageMem[j] == 0 ){  //checks if empty 
 				lruFaults++;
 				pageMem[j] = array[i]; 
-				breakFlag = 1;
+
 				break; 
 			}
 			if( pageMem[j] == array[i]){ //checks if existing
@@ -70,23 +70,22 @@ int lru(string str){
 				while(current != 0){
 					pageMem[current] = pageMem[current-1];
 					current--;
+					}
+				pageMem[0]=t;
+				break;  
 			}
-			pageMem[0]=t;
-			breakFlag = 1;
-			break;  
-			}
-		}
-		if(breakFlag == 0){
+			else{
 			int t = array[i];  // grab current element to put at top
 			int current = frameSize -1;    //last pos in the array
 			while(current != 0){
 				pageMem[current] = pageMem[current-1];
 				current--;
 			}
+		}
 			pageMem[0]=t;
 			lruFaults++;
 		}
-	return lruFaults
+	return lruFaults;
 	}
 
 }
