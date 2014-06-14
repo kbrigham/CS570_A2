@@ -24,8 +24,8 @@ int main(){
     string teststr;
     cout << "test";
     teststr = readFile("pages.txt");
-    print << teststr;
-	printFaults((opt(str), lru(str), clk(str), fifo(str));
+    cout << teststr;
+//	printFaults((opt(str), lru(str), clk(str), fifo(str));
 }
 
 
@@ -74,23 +74,21 @@ int lru(int* array, int length){
 				break;  
 			}
 			else{
-			int t = array[i];  			// grab current element to put at top
-			int current = length -1;    //last pos in the array
-			while(current != 0){
-				pageMem[current] = pageMem[current-1];
-				current--;
-			}
-		}
+				int t = array[i];  			// grab current element to put at top
+				int current = length -1;    //last pos in the array
+				while(current != 0){
+					pageMem[current] = pageMem[current-1];
+					current--;
+				}
 			pageMem[0]=t;
 			lruFaults++;
+			}
+
 		}
 	return lruFaults;
 	}
-
 }
 
-
-}
 int clk(string str){
 //return faults
 }
