@@ -93,6 +93,13 @@ void clkZeros(int pageMem[][2], int SIZE){
     }
 }
 
+int clkContains(const int VALUE,const int arr[][2], const int ARRSIZE){
+    for(int x = 0; x < ARRSIZE; x++)
+        if(arr[x][0] == VALUE)
+            return x;
+    return -1;
+}
+
 void clk(const vector<int> &vec, const int PAGESIZE){
     int faults = 0;
     int lastItem = 0;
@@ -103,25 +110,31 @@ void clk(const vector<int> &vec, const int PAGESIZE){
     
     clkZeros(pageMem, PAGESIZE);
     for(int x = 0; x < VECSIZE; x++){
-        while(true){ 
-            if(arrow == PAGESIZE)
-                    arrow = 0;
-            if(pageMem[arrow][0] == vec[x]){
-                pageMem[arrow][1] = 1;
-                arrow++;
-                break;
-            }
-            else{
-                if(pageMem[arrow][1] == 0){
-                    faults++;
-                    pageMem[arrow][0] = vec[x];
+        int loc;
+        if ( (loc = clkContains(vec[x],pageMem, PAGESIZE)) != -1){
+            pageMem[loc][1] = 1;
+        }
+        else{
+            while(true){ 
+                if(arrow == PAGESIZE)
+                        arrow = 0;
+                if(pageMem[arrow][0] == vec[x]){
                     pageMem[arrow][1] = 1;
                     arrow++;
                     break;
                 }
-                pageMem[arrow][1] = 0;
+                else{
+                    if(pageMem[arrow][1] == 0){
+                        faults++;
+                        pageMem[arrow][0] = vec[x];
+                        pageMem[arrow][1] = 1;
+                        arrow++;
+                        break;
+                    }
+                    pageMem[arrow][1] = 0;
+                }
+                arrow++;
             }
-            arrow++;
         }
     }
     cout << "clk faults = " << faults << endl;
