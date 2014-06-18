@@ -17,16 +17,19 @@ text where each number is separated by a space character.
 */
 
 int main(){
-    const int SIZE = 5;
+    const int PAGESIZE = 6;
+    string fname = "pages.txt";
+    char *fileName; 
+    strncpy(fileName, fname.c_str(), strlen(fname.c_str()) + 1);
     
     vector<int> intVec;
-    intVec = readFile("pages.txt");
-    for_each(intVec.begin(), intVec.end(), printInt);
+    intVec = readFile(fileName);
+    //for_each(intVec.begin(), intVec.end(), printInt);
 //	printFaults((opt(str), lru(str), clk(str), fifo(str));
     //opt(intVec, SIZE);
-    //lru(intVec);
-    //clk(intVec);
-    fifo(intVec, SIZE);
+    lru(intVec, PAGESIZE);
+    clk(intVec, PAGESIZE);
+    fifo(intVec, PAGESIZE);
 }
 
 void printInt(int i){
@@ -41,12 +44,6 @@ vector<int> readFile(char *filename){
     ifstream infile(filename);
     string line;
     getline(infile, line); //iterates each line in file
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //for testing only
-    //line = "1 2 3 4 5 6 7 8 9 10 11 12"; //uncomment for testing
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
     istringstream strstr(line);
     vector<int> intVec;
     string word = "";
@@ -62,56 +59,72 @@ void opt(const vector<int> &vec, const int SIZE){
     int faults = 0;
 }
 
-
-
 void lru(const vector<int> & vec, const int PAGESIZE){
-    int pageMem[PAGESIZE]; //frame
-    int lruFaults = 0; 
-    int length = vec.size();
-    zeros(pageMem, PAGESIZE);
+    //int pageMem[PAGESIZE]; //frame
+    deque<int> pageMem (PAGESIZE,0);
+    int faults = 0; 
+    const int VECSIZE = vec.size();
+    //zeros(pageMem, PAGESIZE);
     
-	for (int i=0; i<=length; i++){					//for all ints in array 
-		for (int j = 0; j <= length -1; j++){		
-			if( pageMem[j] == 0 ){  				//checks if empty 
-				lruFaults++;
-				//pageMem[j] = array[i]; 	
-				break; 
-			}
-			//if( pageMem[j] == array[i]){ 			//compare to check if existing
-				int t = pageMem[j];  
-				//int current = j;
-				//while(current != 0){
-					//pageMem[current] = pageMem[current-1];
-					//current--;
-					//}
-				//pageMem[0]=t;
-				//break;  
-			//}
-			//else{
-				//int t = array[i];  			// grab current element to put at top
-				//int current = length -1;    //last pos in the array
-				//while(current != 0){
-					//pageMem[current] = pageMem[current-1];
-					//current--;
-				//}
-			//pageMem[0]=t;
-			lruFaults++;
-			//}
-            
-		}
-	//return lruFaults;
+    int loc;
+    for(int x = 0; x < VECSIZE; x++){
+        //debug(vec[x],pageMem);
+        if(dequeContains(vec[x], pageMem)){
+            loc = dequeFind(vec[x], pageMem);
+            //cout << "dequeSwap = 0," << loc << endl;
+            dequeSwap(pageMem,0,loc);
+        }
+        else{
+            faults++;
+            //cout << "fault for " << vec[x] << endl;
+            pageMem.pop_back();
+            pageMem.push_front(vec[x]);
+            //if(lastItem == PAGESIZE)
+            //    lastItem = 0;
+        }
+    }
+    cout << "lru faults = " << faults << endl;
+}
+
+void clkZeros(int pageMem[][2], int SIZE){
+    for(int x = 0; x < SIZE; x++){
+    pageMem[x][0] =0;
+    pageMem[x][1] =0;
     }
 }
 
-void clk(const vector<int> &vec, const int SIZE){
-//return faults
-}
-
-bool contains(const int VALUE,const int arr[], const int ARRSIZE){
-    for(int x = 0; x < ARRSIZE; x++)
-        if(arr[x] == VALUE)
-            return true;
-    return false;
+void clk(const vector<int> &vec, const int PAGESIZE){
+    int faults = 0;
+    int lastItem = 0;
+    int pageMem[PAGESIZE][2];
+    //int clockFlag[PAGESIZE];
+    int arrow = 0;
+    const int VECSIZE = vec.size();
+    
+    clkZeros(pageMem, PAGESIZE);
+    for(int x = 0; x < VECSIZE; x++){
+        while(true){ 
+            if(arrow == PAGESIZE)
+                    arrow = 0;
+            if(pageMem[arrow][0] == vec[x]){
+                pageMem[arrow][1] = 1;
+                arrow++;
+                break;
+            }
+            else{
+                if(pageMem[arrow][1] == 0){
+                    faults++;
+                    pageMem[arrow][0] = vec[x];
+                    pageMem[arrow][1] = 1;
+                    arrow++;
+                    break;
+                }
+                pageMem[arrow][1] = 0;
+            }
+            arrow++;
+        }
+    }
+    cout << "clk faults = " << faults << endl;
 }
 
 void fifo(const vector<int> &vec, const int PAGESIZE){
@@ -130,9 +143,8 @@ void fifo(const vector<int> &vec, const int PAGESIZE){
             if(lastItem == PAGESIZE)
                 lastItem = 0;
         }
-            
     }
-    cout << "faults = " << faults << endl;
+    cout << "fifo faults = " << faults << endl;
 }
 
 int printFaults(int opt, int lru, int clk, int fifo){
@@ -141,6 +153,44 @@ int printFaults(int opt, int lru, int clk, int fifo){
 //	cout << "The CLOCK Method Generates "<<clk<< " Page Faults. "<<endl;
 //	cout << "The FIFO Method Generates "<<fifo<< " Page Faults. "<<endl;
 }	
+
+/////////////////////////////////////////////////////////////////////
+// HELPER METHODS BELOW
+/////////////////////////////////////////////////////////////////////
+
+int dequeFind(const int VALUE,const deque<int> & deq){
+    for(int x = 0; x < deq.size(); x++)
+        if(deq[x] == VALUE)
+            return x;
+    return -1;
+}
+
+void dequeSwap(deque<int> & deq,const int loci,const int locj){
+    int temp = deq[loci];
+    deq[loci] = deq[locj];
+    deq[locj] = temp;
+}
+void debug(const int checking,const deque<int> & deq){
+    cout << "Checking for" << checking << "; ";
+    for(int x = 0; x < deq.size(); x++){
+        cout <<deq[x] << " ";
+    }
+    cout << endl;
+}
+
+bool dequeContains(const int VALUE,const deque<int> deq){
+    for(int x = 0; x < deq.size(); x++)
+        if(deq[x] == VALUE)
+            return true;
+    return false;
+}
+
+bool contains(const int VALUE,const int arr[], const int ARRSIZE){
+    for(int x = 0; x < ARRSIZE; x++)
+        if(arr[x] == VALUE)
+            return true;
+    return false;
+}
 
 void zeros(int *arr, const int SIZE){
 for (int x = 0; x < SIZE; x++)

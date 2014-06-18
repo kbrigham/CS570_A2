@@ -7,12 +7,13 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstring>
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
 #include <algorithm> //for_each
 
-#include <deque>
+#include <deque> // might use
 
 using namespace std;
 
@@ -24,4 +25,9 @@ void lru(const vector<int> &, const int);
 void clk(const vector<int> &, const int);
 void fifo(const vector<int> &, const int);
 void zeros(int*, const int);
+bool contains(const int,const int[], const int);
+bool dequeContains(const int,const deque<int>);
+void debug(const int,const deque<int> &);
+void dequeSwap(deque<int> &,const int,const int);
+int dequeFind(const int,const deque<int> &);
 void printFaults();
