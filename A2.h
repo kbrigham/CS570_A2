@@ -12,13 +12,16 @@
 #include <vector>
 #include <algorithm> //for_each
 
+#include <deque>
+
 using namespace std;
 
 void printInt(int);
-void promptUser();
+int promptUser();
 vector<int> readFile(char*);
-void opt();
-void lru();
-void clk();
-void fifo();
+void opt(const vector<int> &, const int);
+void lru(const vector<int> &, const int);
+void clk(const vector<int> &, const int);
+void fifo(const vector<int> &, const int);
+void zeros(int*, const int);
 void printFaults();

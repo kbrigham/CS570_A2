@@ -17,18 +17,25 @@ text where each number is separated by a space character.
 */
 
 int main(){
+    const int SIZE = 5;
+    
     vector<int> intVec;
     intVec = readFile("pages.txt");
     for_each(intVec.begin(), intVec.end(), printInt);
 //	printFaults((opt(str), lru(str), clk(str), fifo(str));
+    //opt(intVec, SIZE);
+    //lru(intVec);
+    //clk(intVec);
+    fifo(intVec, SIZE);
 }
 
 void printInt(int i){
     cout << i << endl;
 }
 
-void promptUser(){
+int promptUser(){
 //Upon startup, prompt the user for the number of frames in main memory 
+    return 3;
 }
 vector<int> readFile(char *filename){
     ifstream infile(filename);
@@ -50,51 +57,82 @@ vector<int> readFile(char *filename){
 
     return intVec;
 }
-void opt(string str){
-//print faults
+void opt(const vector<int> &vec, const int SIZE){
+    //print faults
+    int faults = 0;
 }
-int lru(int* array, int length){
-    int pageMem[50]={0}; //frame
-    int lruFaults = 0; 
 
+
+
+void lru(const vector<int> & vec, const int PAGESIZE){
+    int pageMem[PAGESIZE]; //frame
+    int lruFaults = 0; 
+    int length = vec.size();
+    zeros(pageMem, PAGESIZE);
+    
 	for (int i=0; i<=length; i++){					//for all ints in array 
 		for (int j = 0; j <= length -1; j++){		
 			if( pageMem[j] == 0 ){  				//checks if empty 
 				lruFaults++;
-				pageMem[j] = array[i]; 	
+				//pageMem[j] = array[i]; 	
 				break; 
 			}
-			if( pageMem[j] == array[i]){ 			//compare to check if existing
+			//if( pageMem[j] == array[i]){ 			//compare to check if existing
 				int t = pageMem[j];  
-				int current = j;
-				while(current != 0){
-					pageMem[current] = pageMem[current-1];
-					current--;
-					}
-				pageMem[0]=t;
-				break;  
-			}
-			else{
-				int t = array[i];  			// grab current element to put at top
-				int current = length -1;    //last pos in the array
-				while(current != 0){
-					pageMem[current] = pageMem[current-1];
-					current--;
-				}
-			pageMem[0]=t;
+				//int current = j;
+				//while(current != 0){
+					//pageMem[current] = pageMem[current-1];
+					//current--;
+					//}
+				//pageMem[0]=t;
+				//break;  
+			//}
+			//else{
+				//int t = array[i];  			// grab current element to put at top
+				//int current = length -1;    //last pos in the array
+				//while(current != 0){
+					//pageMem[current] = pageMem[current-1];
+					//current--;
+				//}
+			//pageMem[0]=t;
 			lruFaults++;
-			}
-
+			//}
+            
 		}
-	return lruFaults;
-	}
+	//return lruFaults;
+    }
 }
 
-int clk(string str){
+void clk(const vector<int> &vec, const int SIZE){
 //return faults
 }
-int fifo(string str){
-//return faults
+
+bool contains(const int VALUE,const int arr[], const int ARRSIZE){
+    for(int x = 0; x < ARRSIZE; x++)
+        if(arr[x] == VALUE)
+            return true;
+    return false;
+}
+
+void fifo(const vector<int> &vec, const int PAGESIZE){
+    int faults = 0;
+    int lastItem = 0;
+    int pageMem[PAGESIZE];
+    const int VECSIZE = vec.size();
+    
+    zeros(pageMem, PAGESIZE);
+    for(int x = 0; x < VECSIZE; x++){
+        if(contains(vec[x], pageMem, PAGESIZE))
+            continue;
+        else{
+            faults++;
+            pageMem[lastItem++] = vec[x];
+            if(lastItem == PAGESIZE)
+                lastItem = 0;
+        }
+            
+    }
+    cout << "faults = " << faults << endl;
 }
 
 int printFaults(int opt, int lru, int clk, int fifo){
@@ -103,8 +141,11 @@ int printFaults(int opt, int lru, int clk, int fifo){
 //	cout << "The CLOCK Method Generates "<<clk<< " Page Faults. "<<endl;
 //	cout << "The FIFO Method Generates "<<fifo<< " Page Faults. "<<endl;
 }	
-	
 
+void zeros(int *arr, const int SIZE){
+for (int x = 0; x < SIZE; x++)
+    arr[x] = 0;
+}
 
 
 
