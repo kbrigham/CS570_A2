@@ -18,13 +18,9 @@ text where each number is separated by a space character.
 
 int main(){
     const int PAGESIZE = getInput("Please enter the number of pages: ");
-    string fname = "pages.txt";
-    char *fileName; 
-    strncpy(fileName, fname.c_str(), strlen(fname.c_str()) + 1);
-    
+    char *fileName = "pages.txt"; 
     vector<int> intVec;
     intVec = readFile(fileName);
-    //for_each(intVec.begin(), intVec.end(), printInt);
     opt(intVec, PAGESIZE);
     lru(intVec, PAGESIZE);
     clk(intVec, PAGESIZE);

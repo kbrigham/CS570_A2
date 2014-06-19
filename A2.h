@@ -16,7 +16,6 @@
 
 using namespace std;
 
-int promptUser();
 vector<int> readFile(char*);
 void opt(const vector<int> &, const int);
 void lru(const vector<int> &, const int);
