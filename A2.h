@@ -12,12 +12,10 @@
 #include <stdlib.h>
 #include <vector>
 #include <algorithm> //for_each
-
-#include <deque> // might use
+#include <deque>
 
 using namespace std;
 
-void printInt(int);
 int promptUser();
 vector<int> readFile(char*);
 void opt(const vector<int> &, const int);
@@ -30,4 +28,7 @@ bool dequeContains(const int,const deque<int>);
 void debug(const int,const deque<int> &);
 void dequeSwap(deque<int> &,const int,const int);
 int dequeFind(const int,const deque<int> &);
-void printFaults();
+void clkZeros(int [][2], int);
+int contains(const int,const int [][2], const int);
+void decrement(int [][2], int);
+int findBest(int [][2], int);
