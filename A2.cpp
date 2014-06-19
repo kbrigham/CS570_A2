@@ -17,7 +17,7 @@ text where each number is separated by a space character.
 */
 
 int main(){
-    const int FRAMESIZE = getInput("Please enter the number of pages: ");
+    const int FRAMESIZE = getInput("Please enter the number of frames: ");
     char *fileName = "pages.txt"; 
     vector<int> intVec;
     intVec = readFile(fileName);
