@@ -17,9 +17,8 @@ text where each number is separated by a space character.
 */
 
 int main(){
-    const int PAGESIZE = getInput("Please enter the number of pages: ");
+    const int FRAMESIZE = getInput("Please enter the number of frames: ");
     string fname = "pages.txt";
-	//string fname = "testSet1.txt";
 	//string fname = "testSet2.txt";
     char *fileName; 
     strncpy(fileName, fname.c_str(), strlen(fname.c_str()) + 1);
@@ -27,10 +26,10 @@ int main(){
     vector<int> intVec;
     intVec = readFile(fileName);
     //for_each(intVec.begin(), intVec.end(), printInt);
-    opt(intVec, PAGESIZE);
-    lru(intVec, PAGESIZE);
-    clk(intVec, PAGESIZE);
-    fifo(intVec, PAGESIZE);
+    opt(intVec, FRAMESIZE);
+    lru(intVec, FRAMESIZE);
+    clk(intVec, FRAMESIZE);
+    fifo(intVec, FRAMESIZE);
 }
 
 vector<int> readFile(char *filename){
@@ -48,32 +47,32 @@ vector<int> readFile(char *filename){
     return intVec;
 }
 
-void opt(const vector<int> &vec, const int PAGESIZE){
+void opt(const vector<int> &vec, const int FRAMESIZE){
     int faults = 0;
     int lastItem = 0;
-    int pageMem[PAGESIZE][2];
+    int pageMem[FRAMESIZE][2];
     int arrow = 0;
     const int VECSIZE = vec.size();
     //const int VECSIZE = 20;
 
     
-    clkZeros(pageMem, PAGESIZE);
+    clkZeros(pageMem, FRAMESIZE);
     for(int x = 0; x < VECSIZE; x++){
         int loc;
-        decrement(pageMem, PAGESIZE);
+        decrement(pageMem, FRAMESIZE);
         int nextInst= -1;
         //cout << "nextInst(-1) =" << nextInst << endl;
 
-        loc = contains(vec[x],pageMem, PAGESIZE);
+        loc = contains(vec[x],pageMem, FRAMESIZE);
         
         //////////////////////////////////////////////////
-        //debugger(vec[x],pageMem, PAGESIZE);
+        //debugger(vec[x],pageMem, FRAMESIZE);
         //cout << "looking at " << vec[x] << endl;
         //////////////////////////////////////////////////
         
         if ( loc == -1){
             faults++;
-            loc = findBest(pageMem, PAGESIZE);
+            loc = findBest(pageMem, FRAMESIZE);
             pageMem[loc][0] = vec[x];
         }
         for(int s = x; s < VECSIZE - 1;){
@@ -87,8 +86,8 @@ void opt(const vector<int> &vec, const int PAGESIZE){
     cout << "opt faults = " << faults << endl;
 }
 
-void lru(const vector<int> & vec, const int PAGESIZE){
-    deque<int> pageMem (PAGESIZE,0);
+void lru(const vector<int> & vec, const int FRAMESIZE){
+    deque<int> pageMem (FRAMESIZE,0);
     int faults = 0; 
     const int VECSIZE = vec.size();
     
@@ -107,22 +106,22 @@ void lru(const vector<int> & vec, const int PAGESIZE){
     cout << "lru faults = " << faults << endl;
 }
 
-void clk(const vector<int> &vec, const int PAGESIZE){
+void clk(const vector<int> &vec, const int FRAMESIZE){
     int faults = 0;
     int lastItem = 0;
-    int pageMem[PAGESIZE][2];
+    int pageMem[FRAMESIZE][2];
     int arrow = 0;
     const int VECSIZE = vec.size();
     
-    clkZeros(pageMem, PAGESIZE);
+    clkZeros(pageMem, FRAMESIZE);
     for(int x = 0; x < VECSIZE; x++){
         int loc;
-        if ( (loc = contains(vec[x],pageMem, PAGESIZE)) != -1){
+        if ( (loc = contains(vec[x],pageMem, FRAMESIZE)) != -1){
             pageMem[loc][1] = 1;
         }
         else{
             while(true){ 
-                if(arrow == PAGESIZE)
+                if(arrow == FRAMESIZE)
                         arrow = 0;
                 if(pageMem[arrow][0] == vec[x]){
                     pageMem[arrow][1] = 1;
@@ -146,20 +145,20 @@ void clk(const vector<int> &vec, const int PAGESIZE){
     cout << "clk faults = " << faults << endl;
 }
 
-void fifo(const vector<int> &vec, const int PAGESIZE){
+void fifo(const vector<int> &vec, const int FRAMESIZE){
     int faults = 0;
     int lastItem = 0;
-    int pageMem[PAGESIZE];
+    int pageMem[FRAMESIZE];
     const int VECSIZE = vec.size();
     
-    zeros(pageMem, PAGESIZE);
+    zeros(pageMem, FRAMESIZE);
     for(int x = 0; x < VECSIZE; x++){
-        if(contains(vec[x], pageMem, PAGESIZE))
+        if(contains(vec[x], pageMem, FRAMESIZE))
             continue;
         else{
             faults++;
             pageMem[lastItem++] = vec[x];
-            if(lastItem == PAGESIZE)
+            if(lastItem == FRAMESIZE)
                 lastItem = 0;
         }
     }
