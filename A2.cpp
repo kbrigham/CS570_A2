@@ -166,17 +166,17 @@ void fifo(const vector<int> &vec, const int PAGESIZE){
 
 int getInput(string prompt){
      string input = "";
-    int myNumber = 0;
+    int number = 0;
 
     while (true) {
         cout << prompt;
         getline(cin, input);
         stringstream myStream(input);
-        if (myStream >> myNumber)
+        if (myStream >> number && number < 100 && number > 0)
             break;
         cout << "Error: Invalid number" << endl;
     }
-    return myNumber;
+    return number;
 }
 
 /////////////////////////////////////////////////////////////////////
