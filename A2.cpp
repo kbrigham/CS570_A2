@@ -18,8 +18,8 @@ text where each number is separated by a space character.
 
 int main(){
     const int FRAMESIZE = getInput("Please enter the number of frames: ");
-    //char *fileName = "pages.txt"; 
-	char *fileName = "testSet2.txt";
+    char *fileName = "pages.txt"; 
+	//char *fileName = "testSet2.txt";
     vector<int> intVec;
     intVec = readFile(fileName);
     opt(intVec, FRAMESIZE);
