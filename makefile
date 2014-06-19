@@ -6,7 +6,7 @@
 # Assignment    : Assignment 2
 # Description   : Programming Assignment 2 in C++
 ###########################################################
-EXEC =A2.exe
+EXEC =a2
 CC =g++
 SOURCES=A2.cpp
 FLAGS=
