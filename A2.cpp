@@ -17,7 +17,7 @@ text where each number is separated by a space character.
 */
 
 int main(){
-    const int PAGESIZE = 5;
+    const int PAGESIZE = getInput("Please enter the number of pages: ");
     string fname = "pages.txt";
     char *fileName; 
     strncpy(fileName, fname.c_str(), strlen(fname.c_str()) + 1);
@@ -72,48 +72,34 @@ void opt(const vector<int> &vec, const int PAGESIZE){
         if ( loc == -1){
             faults++;
             loc = findBest(pageMem, PAGESIZE);
-            //cout << "loc = "<< loc << endl;
             pageMem[loc][0] = vec[x];
-            //cout << "vec[x] = "<< vec[x] << endl;
-            //cout << "PageMem[loc][0] = "<< pageMem[loc][0] << endl;
         }
         for(int s = x; s < VECSIZE - 1;){
-        s++;
-            //cout << " x =" << x << " s =" << s ;
-            //cout << "nextInst =" << nextInst << endl;
+            s++;
             if((nextInst == -1) && (vec[s] == pageMem[loc][0])){
-                //cout << "nextInst in for =" << s-x << endl;
                 nextInst = s-x;
                 }
         }
-        //cout << "nextInst =" << nextInst << endl;
         pageMem[loc][1] = nextInst;
     }
     cout << "opt faults = " << faults << endl;
 }
 
 void lru(const vector<int> & vec, const int PAGESIZE){
-    //int pageMem[PAGESIZE]; //frame
     deque<int> pageMem (PAGESIZE,0);
     int faults = 0; 
     const int VECSIZE = vec.size();
-    //zeros(pageMem, PAGESIZE);
     
     int loc;
     for(int x = 0; x < VECSIZE; x++){
-        //debug(vec[x],pageMem);
         if(dequeContains(vec[x], pageMem)){
             loc = dequeFind(vec[x], pageMem);
-            //cout << "dequeSwap = 0," << loc << endl;
             dequeSwap(pageMem,0,loc);
         }
         else{
             faults++;
-            //cout << "fault for " << vec[x] << endl;
             pageMem.pop_back();
             pageMem.push_front(vec[x]);
-            //if(lastItem == PAGESIZE)
-            //    lastItem = 0;
         }
     }
     cout << "lru faults = " << faults << endl;
@@ -123,7 +109,6 @@ void clk(const vector<int> &vec, const int PAGESIZE){
     int faults = 0;
     int lastItem = 0;
     int pageMem[PAGESIZE][2];
-    //int clockFlag[PAGESIZE];
     int arrow = 0;
     const int VECSIZE = vec.size();
     
@@ -177,6 +162,21 @@ void fifo(const vector<int> &vec, const int PAGESIZE){
         }
     }
     cout << "fifo faults = " << faults << endl;
+}
+
+int getInput(string prompt){
+     string input = "";
+    int myNumber = 0;
+
+    while (true) {
+        cout << prompt;
+        getline(cin, input);
+        stringstream myStream(input);
+        if (myStream >> myNumber)
+            break;
+        cout << "Error: Invalid number" << endl;
+    }
+    return myNumber;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -255,12 +255,3 @@ int findBest(int pageMem[][2], int SIZE){
     return high;
 }
 
-void debugger(const int VALUE,const int arr[][2], const int ARRSIZE){
-    for(int x = 0; x < ARRSIZE; x++)
-        cout << arr[x][0] << "," << arr[x][1] << " ";
-    cout <<endl;
-}
-
-void printInt(int i){
-    cout << i << endl;
-}

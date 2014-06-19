@@ -32,3 +32,4 @@ void clkZeros(int [][2], int);
 int contains(const int,const int [][2], const int);
 void decrement(int [][2], int);
 int findBest(int [][2], int);
+int getInput(string);
