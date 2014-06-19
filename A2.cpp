@@ -19,6 +19,8 @@ text where each number is separated by a space character.
 int main(){
     const int PAGESIZE = getInput("Please enter the number of pages: ");
     string fname = "pages.txt";
+	//string fname = "testSet1.txt";
+	//string fname = "testSet2.txt";
     char *fileName; 
     strncpy(fileName, fname.c_str(), strlen(fname.c_str()) + 1);
     
